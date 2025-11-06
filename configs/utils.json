@@ -1,0 +1,6 @@
+{
+  "transactions": ["transfer_funds", "bill_payment"],
+  "budgeting": ["expense_tracking"],
+  "route_planning": ["find_shortest_path", "multi_stop_trip"],
+  "tool_usage": ["screw_tightening", "drill_hole"]
+}
