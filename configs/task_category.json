@@ -1,0 +1,43 @@
+
+{
+  "B1.1": {
+    "name": "simple atomic recall",
+    "description": "Each step is independent and fully specified.",
+    "hint_example" : "Enter your 4-digit PIN."
+  },
+  "B1.2": {
+    "name": "immediate context",
+    "description": "Each step depends on the previous one.",
+    "hint_example" : "Select the seat for the flight you just chose."
+  },
+  "B1.3": {
+    "name": "long context",
+    "description": "Each step depends on the entire procedure.",
+    "hint_example" : "Ensure total transfer amount matches your monthly limit."
+  },
+  "B1.4": {
+    "name": "cross session",
+    "description": "Step depends on past sessions, documents, or external tools.",
+    "hint_example" : "Recreate your last year’s travel route for comparison."
+  },
+  "B2.1": {
+    "name": "conditinal task",
+    "description": "IF/THEN control",
+    "hint_example" : "If weather forecast is bad, reschedule the flight"
+  },
+   "B2.2": {
+    "name": "Iterative task",
+    "description": "iterative or loop control",
+    "hint_example" : "Search for available flights until a match is found."
+  },
+  "B3.1": {
+    "name": "transfert learning",
+    "description": "Transfert learning to similar but yet different task.",
+    "hint_example" : "Adapt the loan approval workflow for student loans"
+  },
+  "B3.2": {
+    "name": "constraint or impossibily",
+    "description": "Learning under contraint or impossibility (e.g. tool unavailable).",
+    "hint_example" : "Attempt to assemble parts from incompatible or inexisting kits."
+  }
+}

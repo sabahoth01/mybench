@@ -1,0 +1,23 @@
+
+{
+  "banking": [
+    "account_management",
+    "transaction_processing",
+    "fraud_and_risk_control",
+    "customer_support",
+    "financial_planning"
+  ],
+  "travel": [
+    "trip_booking",
+    "accommodation_management",
+    "itinerary_planning",
+    "travel_assistance",
+    "travel_analytics"
+  ],
+  "assembly": [
+    "home_setup_and_assembly",
+    "repairs_and_maintenance",
+    "device_configuration",
+    "workspace_organization"
+  ]
+}
