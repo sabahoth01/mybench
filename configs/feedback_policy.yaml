@@ -1,0 +1,31 @@
+feedback_policies:
+  minimal:
+    level: "trial"                    # "trial" or "step"
+    style: "binary"                   # pass/success/correct or fail/incorrect 
+    content:
+      success: "Task completed."
+      failure: "Task failed."
+
+  descriptive:
+    level: "trial"
+    style: "summarized"
+    content:
+      success: "Task successful. Review efficiency metrics."
+      failure: "Task failed. Check logic or missing conditions."
+
+  stepwise:
+    level: "step"
+    style: "analytic"
+    content:
+      pass: "Step correct."
+      fail: "Step incorrect. Consider verifying conditions or arguments."
+
+  applied:
+    level: "step"
+    style: "interactive"
+    content:
+      prompt_templates:
+        - "Why do you think step {n} failed?"
+        - "Can you execute it in lower number of steps?"
+        - "Can you find a more efficient subprocedure?"
+      success_followup: "Good, can you generalize this rule?"

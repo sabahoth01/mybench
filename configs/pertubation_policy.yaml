@@ -1,0 +1,32 @@
+perturbation_policies:
+  none:
+    description: "No perturbation, baseline run."
+    rules: []
+
+  probabilistic:
+    description: "Random perturbations with defined probabilities."
+    rules:
+      - type: "tool_unavailability"
+        probability: 0.1
+      - type: "input_noise"
+        probability: 0.15
+      - type: "constraint_shift"
+        probability: 0.05
+
+  performance_based:
+    description: "Perturbations depend on recent success rates."
+    rules:
+      - condition: "success_rate > 0.8"
+        actions:
+          - "increase_difficulty"
+          - "add_constraint"
+      - condition: "success_rate < 0.3"
+        actions:
+          - "simplify_inputs"
+          - "reduce_constraint_density"
+
+  progressive:
+    description: "Difficulty increases steadily every N trials."
+    rules:
+      - condition: "trial_number % 3 == 0"
+        actions: ["increase_constraint_density"]
