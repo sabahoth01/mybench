@@ -1,23 +1,74 @@
-
 {
-  "banking": [
-    "account_management",
-    "transaction_processing",
-    "fraud_and_risk_control",
-    "customer_support",
-    "financial_planning"
-  ],
-  "travel": [
-    "trip_booking",
-    "accommodation_management",
-    "itinerary_planning",
-    "travel_assistance",
-    "travel_analytics"
-  ],
-  "assembly": [
-    "home_setup_and_assembly",
-    "repairs_and_maintenance",
-    "device_configuration",
-    "workspace_organization"
-  ]
+  "banking": {
+    "account_management": {
+      "open_account": {
+        "inputs": ["customer_data", "initial_deposit"],
+        "outputs": ["account_id", "confirmation_receipt"],
+        "skills": ["form_validation", "identity_verification"]
+      },
+      "close_account": {
+        "inputs": ["account_id", "closure_reason"],
+        "outputs": ["closure_receipt"],
+        "skills": ["record_update", "confirmation_handling"]
+      },
+      "update_details": {
+        "inputs": ["account_id", "new_details"],
+        "outputs": ["update_confirmation"],
+        "skills": ["data_validation", "customer_verification"]
+      }
+    },
+    "transaction_processing": {
+      "transfer_funds": {
+        "inputs": ["source_account", "target_account", "amount"],
+        "outputs": ["transaction_id", "status"],
+        "skills": ["balance_check", "authorization", "logging"]
+      },
+      "bill_payment": {
+        "inputs": ["account_id", "biller_info", "amount"],
+        "outputs": ["payment_receipt"],
+        "skills": ["schedule_payment", "verify_biller"]
+      },
+      "currency_exchange": {
+        "inputs": ["account_id", "from_currency", "to_currency", "amount"],
+        "outputs": ["exchange_rate", "converted_amount"],
+        "skills": ["rate_retrieval", "transaction_execution"]
+      }
+    },
+    "fraud_and_risk_control": {
+      "transaction_monitoring": {
+        "inputs": ["transaction_stream"],
+        "outputs": ["alert", "risk_score"],
+        "skills": ["pattern_detection", "threshold_analysis"]
+      },
+      "user_authentication": {
+        "inputs": ["user_credentials", "device_info"],
+        "outputs": ["auth_status"],
+        "skills": ["multi_factor_auth", "session_management"]
+      }
+    },
+    "customer_support": {
+      "inquiry_handling": {
+        "inputs": ["customer_query"],
+        "outputs": ["response_message"],
+        "skills": ["intent_detection", "information_retrieval"]
+      },
+      "dispute_resolution": {
+        "inputs": ["dispute_case"],
+        "outputs": ["resolution_status"],
+        "skills": ["evidence_review", "case_management"]
+      }
+    },
+    "financial_planning": {
+      "expense_tracking": {
+        "inputs": ["transaction_history"],
+        "outputs": ["expense_summary"],
+        "skills": ["categorization", "trend_analysis"]
+      },
+      "budget_allocation": {
+        "inputs": ["income_data", "spending_goals"],
+        "outputs": ["budget_plan"],
+        "skills": ["goal_optimization", "recommendation"]
+      }
+    }
+  }
 }
