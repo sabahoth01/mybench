@@ -1,24 +1,22 @@
 import json
 from pathlib import Path
-from src.generator.task_generator import generate_from_prompt
+from src.generator.task_generator import generate_multiple_instances
 from src.core.runner import run_trial_series
 
-TASK_CATEGORY_FILE = Path("configs/task_category.json")
+TEST_CATEGORY_FILE = Path("configs/test_category.json")
 
 # Load categories from configs/test_category
-with open(TASK_CATEGORY_FILE, "r", encoding="utf-8") as f:
-    TASK_CATEGORIES = json.load(f)
+with open(TEST_CATEGORY_FILE, "r", encoding="utf-8") as f:
+    TEST_CATEGORIES = json.load(f)
 
-# Reverse lookup: name → key
-NAME_TO_KEY = {v["name"].lower(): k for k, v in TASK_CATEGORIES.items()}
-
+NAME_TO_KEY = {v["name"].lower(): k for k, v in TEST_CATEGORIES.items()}
 
 def interactive_mode():
-    print("\n Procedural Memory Benchmark\n\n\n")
+    print("\n Procedural Memory Benchmark\n")
 
     # Show available categories
     print("\nAvailable task categories:\n")
-    for key, info in TASK_CATEGORIES.items():
+    for key, info in TEST_CATEGORIES.items():
         print(f"- {info['name']} ({key}): {info['description']}")
 
     # User selects category by name
@@ -28,7 +26,6 @@ def interactive_mode():
         return
 
     category_key = NAME_TO_KEY[category_name]
-
     task_prompt = input(f"\nEnter base task prompt for '{category_name}'\nFor example: Transfert 50 rubles from bob to ann...\n\t-> ").strip()
     n_instances = int(input("\nHow many task instances to generate?\n\t-> ").strip())
     n_trials = int(input("\nHow many trials per instance?\n\t-> ").strip())
@@ -39,7 +36,12 @@ def interactive_mode():
 
     # Generate tasks
     print(f"\nGenerating {n_instances} tasks for category '{category_name}'...")
-    tasks = [generate_from_prompt(task_prompt, category_key, category_name) for _ in range(n_instances)]
+    tasks = generate_multiple_instances(
+    prompt=task_prompt,
+    category_key=category_key,
+    category_name=category_name,
+    n_instances=n_instances
+)
     print(f"\nGenerated {len(tasks)} tasks.")
 
     # Start trials?
@@ -52,11 +54,9 @@ def interactive_mode():
         print(f"\n******* Task Instance {i}/{len(tasks)} ({task['task_id']}) *****")
         run_trial_series(task, n_trials, feedback_policy=feedback_policy, perturb_policy=perturb_policy)
 
-
 def config_mode(config):
     print(f"Running benchmark from config file: {config}")
     # TODO: YAML config-driven batch mode
-
 
 def launch_cli():
     import argparse

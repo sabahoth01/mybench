@@ -5,7 +5,8 @@ import requests
 from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
-load_dotenv() 
+load_dotenv()
+import uuid
 
 GENERATED_DIR = Path("data/generated_tasks")
 REGISTRY_PATH = Path("data/task_registry.json")
@@ -18,10 +19,16 @@ OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
 
 def _load_domain():
+    if not DOMAIN_FILE.exists():
+        raise FileNotFoundError(f"Domain file {DOMAIN_FILE} not found.")
     with open(DOMAIN_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 ## test qwen prompt following capacity// must be corrected according to my methodology file
-def _llm_generate_task(prompt, category_key, category_name, domain_name="banking"):
+
+def _generate_task_id(category_key: str) -> str:
+    return f"{category_key}_{uuid.uuid4().hex[:6]}"
+
+def _llm_generate_task(prompt, category_key, category_name, domain_name="banking sphere"):
     """
     Calls OpenRouter LLM to produce a dynamic task instance.
     """
@@ -46,7 +53,7 @@ Output must be valid JSON only (no text outside JSON).
             {"role": "user", "content": f"Prompt: {prompt}"}
         ],
         "temperature": 0.7,
-        "max_tokens": 500,
+        "max_tokens": 1000,
     }
 
     headers = {
@@ -73,15 +80,12 @@ def generate_from_prompt(prompt: str, category_key: str, category_name: str):
     Hybrid LLM + schema-guided generator.
     """
     random.seed()
-
     domain = _load_domain()
     domain_name = "banking sphere"  # for now; later can be user-selectable from each (sub)domaine that i will finalised
 
-   
     task = _llm_generate_task(prompt, category_key, category_name, domain_name)
 
-    if "task_id" not in task:
-        task["task_id"] = f"{category_key}_{int(datetime.now().timestamp())}_{random.randint(100,999)}"
+    task["task_id"] = _generate_task_id(category_key)
 
     task.setdefault("category_key", category_key)
     task.setdefault("category_name", category_name)
@@ -108,3 +112,20 @@ def generate_from_prompt(prompt: str, category_key: str, category_name: str):
         json.dump(registry, f, indent=2, ensure_ascii=False)
 
     return task
+
+def generate_multiple_instances(prompt, category_key, category_name, n_instances: int = 2):
+    tasks = []
+    attempts = 0
+    max_attempts = n_instances * 3  
+    while len(tasks) < n_instances and attempts < max_attempts:
+        attempts += 1
+        try:
+            t = generate_from_prompt(prompt, category_key, category_name)
+            # ensure task_id is unique
+            if t["task_id"] not in [task["task_id"] for task in tasks]:
+                tasks.append(t)
+        except Exception as e:
+            print(f"LLM generation failed: {e}. Retrying... ({len(tasks)+1}/{n_instances})")
+    if len(tasks) < n_instances:
+        print(f"Only generated {len(tasks)} tasks out of requested {n_instances}")
+    return tasks
