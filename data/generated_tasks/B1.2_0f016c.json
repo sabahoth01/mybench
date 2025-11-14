@@ -1,0 +1,26 @@
+{
+  "task_id": "B1.2_0f016c",
+  "category_key": "banking_general_unspecified_task",
+  "category_name": "Banking General Unspecified Task",
+  "domain": "banking",
+  "section": "general",
+  "subtask": "unspecified_task",
+  "steps": [
+    "Verify Bob's account balance sufficient for 100 RUB transfer.",
+    "Confirm Bob's authorization for the transfer.",
+    "Initiate transfer of 100 RUB from Bob's account to Linda's account.",
+    "Update both accounts with the new balances.",
+    "Send confirmation notifications to Bob and Linda."
+  ],
+  "inputs": [],
+  "outputs": [],
+  "skills": [],
+  "variables": {
+    "amount": 100,
+    "currency": "RUB",
+    "sender": "Bob",
+    "receiver": "Linda"
+  },
+  "prompt": "transfert 100 rubles from bob to linda",
+  "created_at": "2025-11-14T13:33:04.949434"
+}

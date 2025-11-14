@@ -1,0 +1,36 @@
+{
+  "task_id": "B1.1_df39e9",
+  "category_key": "B1.1",
+  "category_name": "simple atomic recall",
+  "domain": "banking",
+  "section": "transaction_processing",
+  "subtask": "transfer_funds",
+  "steps": [
+    "Verify source account has sufficient balance of at least 10 rubles.",
+    "Authenticate user authorization for the transfer.",
+    "Initiate fund transfer from source_account to target_account with amount 10 rubles.",
+    "Generate unique transaction_id for the transfer.",
+    "Log transaction details in the system audit trail.",
+    "Return transaction_id and status as 'success'."
+  ],
+  "inputs": {
+    "source_account": "acc_123",
+    "target_account": "acc_456",
+    "amount": 10
+  },
+  "outputs": {
+    "transaction_id": "tx_78901",
+    "status": "success"
+  },
+  "skills": [
+    "balance_check",
+    "authorization",
+    "logging"
+  ],
+  "variables": {
+    "source_account_owner": "user",
+    "target_account_owner": "jean"
+  },
+  "prompt": "send 10 rubles from my account to jean",
+  "created_at": "2025-11-14T13:59:01.363477"
+}

@@ -1,0 +1,26 @@
+{
+  "task_id": "B1.2_bf611e",
+  "category_key": "banking_general_unspecified_task",
+  "category_name": "Banking General Unspecified Task",
+  "domain": "banking",
+  "section": "general",
+  "subtask": "unspecified_task",
+  "steps": [
+    "Verify Bob's account balance to ensure sufficient funds for transfer.",
+    "Initiate a transfer of 100 Russian rubles from Bob's account to Linda's account.",
+    "Confirm the transaction with both parties via SMS or app notification.",
+    "Update both account ledgers to reflect the transfer.",
+    "Log the transaction in the bank's system with timestamp and reference ID."
+  ],
+  "inputs": [],
+  "outputs": [],
+  "skills": [],
+  "variables": {
+    "amount": 100,
+    "currency": "RUB",
+    "sender": "Bob",
+    "recipient": "Linda"
+  },
+  "prompt": "transfert 100 rubles from bob to linda",
+  "created_at": "2025-11-14T13:32:56.249794"
+}
