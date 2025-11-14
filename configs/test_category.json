@@ -3,41 +3,65 @@
   "B1.1": {
     "name": "simple atomic recall",
     "description": "Each step is independent and fully specified.",
-    "hint_example" : "Enter your 4-digit PIN."
+    "hint_example" : "Enter your 4-digit PIN.",
+    "complexity": {
+      "procedure_length": [4, 8, 10]
+    }
   },
   "B1.2": {
     "name": "immediate context",
     "description": "Each step depends on the previous one.",
-    "hint_example" : "Select the seat for the flight you just chose."
+    "hint_example" : "Select the seat for the flight you just chose.",
+    "complexity": {
+      "procedure_length": [4, 8, 10, 12]
+    }
   },
   "B1.3": {
     "name": "long context",
     "description": "Each step depends on the entire procedure.",
-    "hint_example" : "Ensure total transfer amount matches your monthly limit."
+    "hint_example" : "Ensure total transfer amount matches your monthly limit.",
+    "complexity": {
+      "procedure_length": [8, 12, 16, 20]
+    }
   },
   "B1.4": {
     "name": "cross session",
     "description": "Step depends on past sessions, documents, or external tools.",
-    "hint_example" : "Recreate your last year’s travel route for comparison."
+    "hint_example" : "Recreate your last year’s travel route for comparison.",
+    "complexity": {
+      "procedure_length": [8, 12, 16, 20]
+    }
   },
   "B2.1": {
     "name": "conditinal task",
     "description": "IF/THEN control",
-    "hint_example" : "If weather forecast is bad, reschedule the flight"
+    "hint_example" : "If weather forecast is bad, reschedule the flight",
+    "complexity": {
+      "procedure_length": [4, 8, 12, 15]
+    }
   },
    "B2.2": {
     "name": "Iterative task",
     "description": "iterative or loop control",
-    "hint_example" : "Search for available flights until a match is found."
+    "hint_example" : "Search for available flights until a match is found.",
+    "complexity": {
+      "procedure_length": [4, 8, 12, 15]
+    }
   },
   "B3.1": {
     "name": "transfert learning",
     "description": "Transfert learning to similar but yet different task.",
-    "hint_example" : "Adapt the loan approval workflow for student loans"
+    "hint_example" : "Adapt the loan approval workflow for student loans",
+    "complexity": {
+      "procedure_length": [8, 12, 16, 20]
+    }
   },
   "B3.2": {
     "name": "constraint or impossibily",
     "description": "Learning under contraint or impossibility (e.g. tool unavailable).",
-    "hint_example" : "Attempt to assemble parts from incompatible or inexisting kits."
+    "hint_example" : "Attempt to assemble parts from incompatible or inexisting kits.",
+    "complexity": {
+      "procedure_length": [8, 12, 16, 20]
+    }
   }
 }
