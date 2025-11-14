@@ -11,7 +11,7 @@ import uuid
 GENERATED_DIR = Path("data/generated_tasks")
 REGISTRY_PATH = Path("data/task_registry.json")
 DOMAIN_FILE = Path("configs/task_domaine.json")
-
+KEYWORD_FILE = Path("configs/domain_keywords.json")
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY") 
 # qwen
 OPENROUTER_MODEL = "qwen/qwen3-next-80b-a3b-instruct"
@@ -23,28 +23,74 @@ def _load_domain():
         raise FileNotFoundError(f"Domain file {DOMAIN_FILE} not found.")
     with open(DOMAIN_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
-## test qwen prompt following capacity// must be corrected according to my methodology file
 
+def _load_keywords():
+    if not KEYWORD_FILE.exists():
+        raise FileNotFoundError(f"Keyword file {KEYWORD_FILE} not found.")
+    with open(KEYWORD_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
+    
+## test qwen prompt following capacity// must be corrected according to my methodology file
 def _generate_task_id(category_key: str) -> str:
     return f"{category_key}_{uuid.uuid4().hex[:6]}"
+ 
+def _resolve_domain_info(prompt: str, domain_data: dict):
+    """
+    Fuzzy domain/subtask detection using external keyword file
+    Returns best matching (domain, section, subtask, schema_info),
+    or fallback.
+    """
+    prompt_lower = prompt.lower()
+    keyword_map = _load_keywords()
 
-def _llm_generate_task(prompt, category_key, category_name, domain_name="banking sphere"):
+    # First pass: keyword-based matching
+    for domain_name, domain_sections in domain_data.items():
+        for section, subtasks in domain_sections.items():
+            for subtask_name, schema_info in subtasks.items():
+                # keywords loaded from external file
+                keywords = keyword_map.get(subtask_name, [])
+                for kw in keywords:
+                    if kw in prompt_lower:
+                        return domain_name, section, subtask_name, schema_info
+                # secondary: partial match on subtask name
+                words = subtask_name.replace("_", " ").split()
+                if all(w in prompt_lower for w in words):
+                    return domain_name, section, subtask_name, schema_info
+    # fallback
+    return "banking", "general", "unspecified_task", {
+        "inputs": [],
+        "outputs": [],
+        "skills": []
+    }
+
+def _llm_generate_task(prompt, category_key, category_name, domain_data):
     """
-    Calls OpenRouter LLM to produce a dynamic task instance.
+    Calls OpenRouter LLM to produce a domain-grounded task instance.
     """
+    domain_name, section, subtask, schema_info = _resolve_domain_info(prompt, domain_data)
+
     system_prompt = f"""
-You are a task generator for a LLM procedural memory benchmark.
-Given a domain schema and a user prompt, you will generate a *concrete, realistic task instance*.
-Output must be valid JSON only (no text outside JSON).
+You are a procedural task generator for a benchmark.
+Given a user prompt and a domain schema, generate a concrete, realistic task instance.
+The output must be **pure JSON** only (no text outside JSON).
 
-### Instructions:
+### Context
 - Domain: {domain_name}
-- Category: {category_name} ({category_key})
-- Rule for B1.1 ("simple atomic recall"): produce a short, self-contained, single-task procedure (2–10 steps max).
-- Each step should be clearly written as an instruction.
-- Include realistic parameter values consistent with the schema.
-- Use JSON fields: task_id, category_key, category_name, domain, steps, variables.
-"""
+- Section: {section}
+- Subtask: {subtask}
+
+### Schema
+- Inputs: {schema_info['inputs']}
+- Outputs: {schema_info['outputs']}
+- Required Skills: {schema_info['skills']}
+
+### Rules
+- Task must follow the schema logically.
+- Include steps that use the listed inputs and produce the listed outputs.
+- Keep tasks coherent with the benchmark category ({category_name} / {category_key}).
+- Generate exactly one JSON with fields:
+  task_id, category_key, category_name, domain, section, subtask, steps, inputs, outputs, skills, variables.
+    """
 
     payload = {
         "model": OPENROUTER_MODEL,
@@ -53,7 +99,7 @@ Output must be valid JSON only (no text outside JSON).
             {"role": "user", "content": f"Prompt: {prompt}"}
         ],
         "temperature": 0.7,
-        "max_tokens": 1000,
+        "max_tokens": 1200,
     }
 
     headers = {
@@ -66,7 +112,7 @@ Output must be valid JSON only (no text outside JSON).
     data = response.json()
 
     raw_output = data["choices"][0]["message"]["content"]
-    # try to extract JSON
+
     try:
         json_start = raw_output.find("{")
         json_end = raw_output.rfind("}") + 1
@@ -75,21 +121,19 @@ Output must be valid JSON only (no text outside JSON).
         raise ValueError(f"Model output not valid JSON: {raw_output}") from e
 
 
+
 def generate_from_prompt(prompt: str, category_key: str, category_name: str):
     """
     Hybrid LLM + schema-guided generator.
     """
     random.seed()
-    domain = _load_domain()
-    domain_name = "banking sphere"  # for now; later can be user-selectable from each (sub)domaine that i will finalised
-
-    task = _llm_generate_task(prompt, category_key, category_name, domain_name)
-
+    domain_data = _load_domain()
+    task = _llm_generate_task(prompt, category_key, category_name, domain_data)
     task["task_id"] = _generate_task_id(category_key)
 
     task.setdefault("category_key", category_key)
     task.setdefault("category_name", category_name)
-    task.setdefault("domain", domain_name)
+    task.setdefault("domain", domain_data)
     task["prompt"] = prompt
     task["created_at"] = datetime.now().isoformat()
 
@@ -121,7 +165,7 @@ def generate_multiple_instances(prompt, category_key, category_name, n_instances
         attempts += 1
         try:
             t = generate_from_prompt(prompt, category_key, category_name)
-            # ensure task_id is unique
+            
             if t["task_id"] not in [task["task_id"] for task in tasks]:
                 tasks.append(t)
         except Exception as e:
