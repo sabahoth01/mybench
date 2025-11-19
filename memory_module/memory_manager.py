@@ -64,7 +64,7 @@ class ProceduralMemory:
             index[p["class"]].append(p)
         return index
 
-    # ----------------- Retrieval -----------------
+    # retrieval part have to be arranged, this is just a squelette
     def retrieve(self, signature: str, task_class: Optional[str] = None) -> Optional[Dict[str, Any]]:
         candidates = []
         if task_class and task_class in self.index:

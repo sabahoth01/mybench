@@ -1,3 +1,542 @@
 [
-  
+  {
+    "task_id": "B1.1_1762938895_277",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_1762938895_755",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_1763028044_976",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_1763028044_943",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_1763028161_152",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_1763028161_626",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.2_001",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_001",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1-001",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_679670",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_35da40",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_70054b",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_b693cb",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_e12f32",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_1d6d9a",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_2a70db",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_e7b9ea",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_656b0e",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_e722d9",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_2aa6a9",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.2_b881fa",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_bf611e",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_4472c8",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_0f016c",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_ce7860",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_c23963",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_955eac",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_5e52c7",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.1_df39e9",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_bac5d8",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_a33862",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.3_92f79a",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.3_2410a5",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.3_be08e7",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B3.1_6502c1",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B3.1_070e3e",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B3.1_edcc8d",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B3.1_90f917",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B3.1_2037bd",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B3.1_cf2914",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B3.1_e6ebe9",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B3.1_11fe1a",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B3.1_5891fc",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B3.1_640224",
+    "category_key": "B3.1",
+    "category_name": "transfert learning"
+  },
+  {
+    "task_id": "B1.1_013249",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_a3646b",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_a7881b",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  }
 ]

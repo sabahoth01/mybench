@@ -2,7 +2,7 @@
   "banking": {
     "account_management": {
       "open_account": {
-        "inputs": ["customer_data", "initial_deposit"],
+        "inputs": ["customer_data", "initial_deposit", "currency"],
         "outputs": ["account_id", "confirmation_receipt"],
         "skills": ["form_validation", "identity_verification"]
       },
@@ -19,12 +19,12 @@
     },
     "transaction_processing": {
       "transfer_funds": {
-        "inputs": ["source_account", "target_account", "amount"],
+        "inputs": ["source_account", "target_account", "amount", "currency"],
         "outputs": ["transaction_id", "status"],
         "skills": ["balance_check", "authorization", "logging"]
       },
       "bill_payment": {
-        "inputs": ["account_id", "biller_info", "amount"],
+        "inputs": ["account_id", "biller_info", "amount", "currency"],
         "outputs": ["payment_receipt"],
         "skills": ["schedule_payment", "verify_biller"]
       },
