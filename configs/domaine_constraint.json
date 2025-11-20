@@ -22,7 +22,6 @@
         },
         "unknown_value": "unknown"
       },
-
       "close_account": {
         "inputs": {
           "account_id": { "required": true },
@@ -34,7 +33,6 @@
           }
         }
       },
-
       "update_details": {
         "inputs": {
           "account_id": { "required": true },
@@ -50,7 +48,6 @@
         }
       }
     },
-
     "transaction_processing": {
       "transfer_funds": {
         "inputs": {
@@ -83,7 +80,6 @@
           "payment_receipt": { "unknown_value": "unknown" }
         }
       },
-
       "currency_exchange": {
         "inputs": {
           "account_id": { "required": true },

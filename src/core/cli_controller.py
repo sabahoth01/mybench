@@ -4,13 +4,11 @@ from src.generator.task_generator import generate_multiple_instances
 from src.core.runner import run_trial_series
 
 TEST_CATEGORY_FILE = Path("configs/test_category.json")
-
 with open(TEST_CATEGORY_FILE, "r", encoding="utf-8") as f:
     TEST_CATEGORIES = json.load(f)
 ORDERED_CATEGORIES = [
     (i, key, info) 
-    for i, (key, info) in enumerate(TEST_CATEGORIES.items(), start=1)
-]
+    for i, (key, info) in enumerate(TEST_CATEGORIES.items(), start=1)]
 
 def interactive_mode():
     print("\n Procedural Memory Benchmark\n")
