@@ -2,7 +2,7 @@
   "banking": {
     "account_management": {
       "open_account": {
-        "inputs": ["customer_data", "initial_deposit", "currency"],
+        "inputs": ["customer_full_name","customer_address", "customer_birthday", "customer_document","initial_deposit", "currency"],
         "outputs": ["account_id", "confirmation_receipt"],
         "skills": ["form_validation", "identity_verification"]
       },
