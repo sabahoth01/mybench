@@ -202,4 +202,3 @@ def generate_multiple_instances(prompt, category_key, category_name, n_instances
     if len(tasks) < n_instances:
         print(f"Only generated {len(tasks)} tasks out of requested {n_instances}")
     return tasks
-
