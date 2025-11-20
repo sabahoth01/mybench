@@ -1,0 +1,101 @@
+{
+  "banking": {
+    "account_management": {
+      "open_account": {
+        "inputs": {
+          "customer_data": { "required": true },
+          "initial_deposit": { "required": true },
+          "currency": {
+            "required": false,
+            "default": "rub",
+            "allowed": ["rub", "usd", "eur"]
+          }
+        },
+        "outputs": {
+          "account_id": {
+            "format": "^[A-Z]-[0-9a-fA-F]{6}$",
+            "generation_rule": "first_initial + '-' + 6_hex"
+          },
+          "confirmation_receipt": {
+            "format_template": "Account opened successfully. Account ID: {account_id}. Initial deposit: {initial_deposit}. Date: {date}"
+          }
+        },
+        "unknown_value": "unknown"
+      },
+
+      "close_account": {
+        "inputs": {
+          "account_id": { "required": true },
+          "closure_reason": { "required": false, "unknown_value": "not specified" }
+        },
+        "outputs": {
+          "closure_receipt": {
+            "format_template": "Account {account_id} closed. Reason: {closure_reason}. Date: {date}"
+          }
+        }
+      },
+
+      "update_details": {
+        "inputs": {
+          "account_id": { "required": true },
+          "new_details": {
+            "allowed_keys": ["customer_data", "currency"],
+            "required": true
+          }
+        },
+        "outputs": {
+          "update_confirmation": {
+            "format_template": "Updated fields: {updated_fields}. Account: {account_id}"
+          }
+        }
+      }
+    },
+
+    "transaction_processing": {
+      "transfer_funds": {
+        "inputs": {
+          "source_account": { "required": true },
+          "target_account": { "required": true },
+          "amount": { "required": true },
+          "currency": {
+            "required": false,
+            "default": "rub"
+          }
+        },
+        "outputs": {
+          "transaction_id": {
+            "format": "^tsc-[0-9a-fA-F]{6}$"
+          },
+          "status": {
+            "allowed": ["complete", "rejected", "in verification"]
+          }
+        }
+      },
+
+      "bill_payment": {
+        "inputs": {
+          "account_id": { "required": true },
+          "biller_info": { "required": true },
+          "amount": { "required": true },
+          "currency": { "required": false, "default": "rub" }
+        },
+        "outputs": {
+          "payment_receipt": { "unknown_value": "unknown" }
+        }
+      },
+
+      "currency_exchange": {
+        "inputs": {
+          "account_id": { "required": true },
+          "from_currency": { "required": true },
+          "to_currency": { "required": true },
+          "amount": { "required": true }
+        },
+        "outputs": {
+          "exchange_rate": { "required": false, "unknown_value": "unknown" },
+          "converted_amount": { "required": false, "unknown_value": "unknown" }
+        }
+      }
+    }
+  }
+}
