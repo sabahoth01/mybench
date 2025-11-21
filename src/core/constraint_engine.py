@@ -1,6 +1,9 @@
 import re
 import secrets
+import logging
 from datetime import date
+
+logging.basicConfig(level=logging.WARNING)
 
 class ConstraintEngine:
     def __init__(self, constraints: dict):
@@ -16,21 +19,24 @@ class ConstraintEngine:
 
     def apply_input_rules(self, subtask_rules: dict, user_inputs: dict):
         """
-        Apply defaults and unknowns for inputs according to subtask_rules.
-        Returns processed_inputs dict.
+        Fill in input values:
+        - Use user provided values if present.
+        - Use 'default' if optional and missing.
+        - Use 'unknown' only for required missing fields.
         """
         processed = {}
-        inputs_rules = subtask_rules.get("inputs", {})
-        unknown_token = subtask_rules.get("unknown_value", "unknown")
+        input_rules = subtask_rules.get("inputs", {})
+        unknown = subtask_rules.get("unknown_value", "unknown")
 
-        for key, rule in inputs_rules.items():
+        for key, rule in input_rules.items():
             if key in user_inputs and user_inputs[key] is not None:
                 processed[key] = user_inputs[key]
             else:
                 if rule.get("required", False):
-                    processed[key] = rule.get("unknown_value", unknown_token)
+                    processed[key] = rule.get("unknown_value", unknown)
                 else:
-                    processed[key] = rule.get("default", rule.get("unknown_value", unknown_token))
+                    # Optional field: prefer default, else unknown
+                    processed[key] = rule.get("default", unknown)
         return processed
 
     def generate_account_id(self, customer_data):
@@ -38,58 +44,59 @@ class ConstraintEngine:
         Format: FIRSTINITIAL-6hex (uppercase initial)
         If no first name present -> use 'X' as initial.
         """
-        first = "X"
+        initial = "X"
         if isinstance(customer_data, dict):
-            fn = customer_data.get("first_name") or customer_data.get("firstname") or customer_data.get("name")
+            fn = (
+                customer_data.get("first_name")
+                or customer_data.get("firstname")
+                or customer_data.get("name")
+            )
             if isinstance(fn, str) and fn.strip():
-                first = fn.strip()[0].upper()
-        hex6 = secrets.token_hex(3)  # 3 bytes -> 6 hex chars
-        return f"{first}-{hex6}"
+                initial = fn.strip()[0].upper()
+
+        h = secrets.token_hex(3)
+        return f"{initial}-{h}"
 
     def generate_transaction_id(self):
-        hex6 = secrets.token_hex(3)
-        return f"tsc-{hex6}"
+        return f"tsc-{secrets.token_hex(3)}"
 
     def apply_output_templates(self, subtask_rules: dict, inputs: dict, outputs: dict):
         """
-        Apply format_template for outputs that have templates.
-        Insert date YYYY-MM-DD.
+        Apply format_template for outputs.
+        Logs a warning if formatting fails.
         """
         templates = subtask_rules.get("outputs", {})
         today = date.today().isoformat()
-        out = dict(outputs)  # copy
+        result = dict(outputs)
 
         for field, rule in templates.items():
             if "format_template" in rule:
                 template = rule["format_template"]
-                # safe format: only known placeholders should exist
-                # prepare mapping
                 mapping = {}
                 mapping.update(inputs)
-                mapping.update(out)
+                mapping.update(result)
                 mapping["date"] = today
                 try:
-                    out[field] = template.format(**mapping)
-                except Exception:
-                    # fallback to a compact representation
-                    out[field] = template.replace("{date}", today)
-        return out
+                    result[field] = template.format(**mapping)
+                except Exception as e:
+                    logging.warning(f"Output template formatting failed for field '{field}': {e}")
+                    result[field] = template.replace("{date}", today)
+        return result
 
     def validate_allowed(self, value, rule):
-        """
-        If rule specifies allowed list, ensure value is in it;
-        otherwise return a default or unknown.
-        """
         allowed = rule.get("allowed")
-        unknown = rule.get("unknown_value") or "unknown"
+        unknown = rule.get("unknown_value", "unknown")
         if allowed:
             if value in allowed:
                 return value
-            # else fallback to first allowed? safer to return unknown
             return unknown
         return value
 
-    def validate_regex(self, value: str, pattern: str) -> bool:
+    def validate_regex(self, value, pattern: str):
+        """
+        Uses fullmatch for exact format validation (e.g., ID patterns).
+        Returns True if value matches the entire pattern.
+        """
         if not isinstance(value, str):
             return False
-        return bool(re.match(pattern, value))
+        return bool(re.fullmatch(pattern, value))
