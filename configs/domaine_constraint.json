@@ -3,8 +3,15 @@
     "account_management": {
       "open_account": {
         "inputs": {
-          "customer_data": { "required": true },
-          "initial_deposit": { "required": true },
+          "customer_full_name": { "required": true },
+          "customer_address": { "required": true },
+          "customer_birthday": { "required": true }, 
+          "customer_document": { 
+            "required": true, 
+            "default": "Passport",
+            "allowed": ["Passport", "Driver's license", "Military ID card"]
+          },
+          "initial_deposit": { "required": false },
           "currency": {
             "required": false,
             "default": "rub",
@@ -17,7 +24,7 @@
             "generation_rule": "first_initial + '-' + 6_hex"
           },
           "confirmation_receipt": {
-            "format_template": "Account opened successfully. Account ID: {account_id}. Initial deposit: {initial_deposit}. Date: {date}"
+            "format_template": "Account opened successfully. Account ID: {account_id}. Initial deposit: {initial_deposit} {currency}. Date: {date}"
           }
         },
         "unknown_value": "unknown"
@@ -37,7 +44,7 @@
         "inputs": {
           "account_id": { "required": true },
           "new_details": {
-            "allowed_keys": ["customer_data", "currency"],
+            "allowed_keys": ["customer_full_name","customer_address", "customer_birthday", "customer_document", "currency"],
             "required": true
           }
         },
