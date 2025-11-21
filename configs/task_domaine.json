@@ -26,7 +26,7 @@
       "bill_payment": {
         "inputs": ["account_id", "biller_info", "amount", "currency"],
         "outputs": ["payment_receipt"],
-        "skills": ["schedule_payment", "verify_biller"]
+        "skills": ["schedule_payment", "verify_biller"]                                              
       },
       "currency_exchange": {
         "inputs": ["account_id", "from_currency", "to_currency", "amount"],
