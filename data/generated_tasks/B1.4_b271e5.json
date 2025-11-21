@@ -1,0 +1,51 @@
+{
+  "task_id": "B1.4_b271e5",
+  "category_key": "B1.4",
+  "category_name": "cross session",
+  "domain": "banking",
+  "section": "account_management",
+  "subtask": "open_account",
+  "steps": [
+    "Greet the customer and confirm they wish to open a new bank account.",
+    "Ask the customer to provide their full legal name for verification.",
+    "Verify the customer's identity by requesting a government-issued photo ID.",
+    "Record the customer's full name as 'mary' in the system.",
+    "Ask the customer for their current residential address.",
+    "If address is not provided, note it as missing and proceed with caution.",
+    "Request the customer's date of birth for compliance and KYC purposes.",
+    "If birthday is not provided, flag for follow-up and proceed with alternative verification.",
+    "Ask the customer to present a valid government-issued document (e.g., passport, driver’s license).",
+    "If document is not provided, inform the customer it is required to proceed.",
+    "Confirm the type of account the customer wishes to open (e.g., checking, savings).",
+    "Explain the features, fees, and interest rates associated with the selected account type.",
+    "Ask if the customer would like to make an initial deposit.",
+    "If no initial deposit is provided, note that the account can still be opened with $0.",
+    "Confirm the preferred currency for the account (e.g., USD, EUR).",
+    "If currency is not specified, default to the local currency of the branch.",
+    "Enter all collected data into the bank’s core banking system.",
+    "Run automated compliance checks (e.g., AML, sanctions list screening).",
+    "Generate and present the account agreement for the customer to review and sign electronically or on paper.",
+    "Issue account details (account number, debit card if requested) and provide welcome materials."
+  ],
+  "inputs": {
+    "customer_full_name": "mary",
+    "customer_address": "unknown",
+    "customer_birthday": "unknown",
+    "customer_document": "unknown",
+    "initial_deposit": "unknown",
+    "currency": "rub"
+  },
+  "outputs": {
+    "account_id": "X-42f451",
+    "confirmation_receipt": "Account opened successfully. Account ID: X-42f451. Initial deposit: unknown rub. Date: 2025-11-21"
+  },
+  "skills": [
+    "form_validation",
+    "identity_verification"
+  ],
+  "complexity": {
+    "procedure_length": 20
+  },
+  "prompt": "open account for mary",
+  "created_at": "2025-11-21T14:28:49.981533"
+}

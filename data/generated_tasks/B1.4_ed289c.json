@@ -1,0 +1,43 @@
+{
+  "task_id": "B1.4_ed289c",
+  "category_key": "B1.4",
+  "category_name": "cross session",
+  "domain": "banking",
+  "section": "account_management",
+  "subtask": "open_account",
+  "steps": [
+    "Greet the customer and confirm the request to open a new account.",
+    "Ask the customer to provide their full legal name for verification.",
+    "Verify the customer's identity using a government-issued ID (if available).",
+    "Request the customer's current residential address for record-keeping.",
+    "Ask for the customer's date of birth to comply with KYC regulations.",
+    "Inquire about the type of identification document the customer holds (e.g., passport, driver’s license).",
+    "Explain the available account types and recommend the most suitable one.",
+    "Ask if the customer wishes to make an initial deposit and specify the amount.",
+    "Confirm the preferred currency for the account (e.g., USD, EUR, local currency).",
+    "Complete the account application form with the collected information.",
+    "Review all entered details with the customer for accuracy and obtain their signature.",
+    "Submit the application for backend processing and provide the customer with a confirmation receipt."
+  ],
+  "inputs": {
+    "customer_full_name": "mary",
+    "customer_address": "unknown",
+    "customer_birthday": "unknown",
+    "customer_document": "unknown",
+    "initial_deposit": "unknown",
+    "currency": "rub"
+  },
+  "outputs": {
+    "account_id": "X-c46969",
+    "confirmation_receipt": "Account opened successfully. Account ID: X-c46969. Initial deposit: unknown rub. Date: 2025-11-21"
+  },
+  "skills": [
+    "form_validation",
+    "identity_verification"
+  ],
+  "complexity": {
+    "procedure_length": 12
+  },
+  "prompt": "open account for mary",
+  "created_at": "2025-11-21T14:28:30.918525"
+}

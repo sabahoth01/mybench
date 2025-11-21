@@ -1,0 +1,39 @@
+{
+  "task_id": "B1.4_0780a6",
+  "category_key": "B1.4",
+  "category_name": "cross session",
+  "domain": "banking",
+  "section": "account_management",
+  "subtask": "open_account",
+  "steps": [
+    "Greet the customer and confirm they wish to open a new bank account.",
+    "Ask the customer to provide their full legal name for verification (already provided as 'mary').",
+    "Request the customer's current residential address to complete the KYC process.",
+    "Ask for the customer's date of birth to verify identity and comply with regulations.",
+    "Request a valid government-issued identification document (e.g., passport or driver’s license).",
+    "Inquire about the desired initial deposit amount and preferred currency for the account.",
+    "Review all provided information for accuracy and completeness, and explain account terms and fees.",
+    "Submit the application for approval, issue account details, and provide access credentials (e.g., debit card, online banking login)."
+  ],
+  "inputs": {
+    "customer_full_name": "mary",
+    "customer_address": "unknown",
+    "customer_birthday": "unknown",
+    "customer_document": "unknown",
+    "initial_deposit": "unknown",
+    "currency": "rub"
+  },
+  "outputs": {
+    "account_id": "X-37569a",
+    "confirmation_receipt": "Account opened successfully. Account ID: X-37569a. Initial deposit: unknown rub. Date: 2025-11-21"
+  },
+  "skills": [
+    "form_validation",
+    "identity_verification"
+  ],
+  "complexity": {
+    "procedure_length": 8
+  },
+  "prompt": "open account for mary",
+  "created_at": "2025-11-21T14:28:39.635188"
+}
