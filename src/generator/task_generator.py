@@ -2,203 +2,248 @@ import os
 import json
 import random
 import requests
+import uuid
+import re
+
 from datetime import datetime
 from pathlib import Path
 from dotenv import load_dotenv
+from src.core.constraint_engine import ConstraintEngine
+from src.core.task_validator import TaskValidator
+
 load_dotenv()
-import uuid
 
 GENERATED_DIR = Path("data/generated_tasks")
 REGISTRY_PATH = Path("data/task_registry.json")
 CATEGORY_FILE = Path("configs/test_category.json")
 DOMAIN_FILE = Path("configs/task_domaine.json")
 KEYWORD_FILE = Path("configs/domain_keywords.json")
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY") 
-# qwen
+CONSTRAINT_FILE = Path("configs/domaine_constraint.json")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 OPENROUTER_MODEL = "qwen/qwen3-next-80b-a3b-instruct"
 OPENROUTER_URL = "https://openrouter.ai/api/v1/chat/completions"
 
-def _load_domain():
-    if not DOMAIN_FILE.exists():
-        raise FileNotFoundError(f"Domain file {DOMAIN_FILE} not found.")
-    with open(DOMAIN_FILE, "r", encoding="utf-8") as f:
+def _load_json(path: Path):
+    if not path.exists():
+        if path == CONSTRAINT_FILE: return {}
+        raise FileNotFoundError(f"{path} not found.")
+    with open(path, "r", encoding="utf-8") as f:
         return json.load(f)
 
-def _load_keywords():
-    if not KEYWORD_FILE.exists():
-        raise FileNotFoundError(f"Keyword file {KEYWORD_FILE} not found.")
-    with open(KEYWORD_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+def _load_categories(): return _load_json(CATEGORY_FILE)
+def _load_domain(): return _load_json(DOMAIN_FILE)
+def _load_keywords(): return _load_json(KEYWORD_FILE)
+def _load_constraints(): return _load_json(CONSTRAINT_FILE) if CONSTRAINT_FILE.exists() else {}
 
-def _load_categories():
-    with open(CATEGORY_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
-    
 def _generate_task_id(category_key: str) -> str:
     return f"{category_key}_{uuid.uuid4().hex[:6]}"
- 
+
 def _sample_complexity(category_key: str, categories: dict):
-    """
-    Randomly samples complexity parameters for a given category.
-    """
     if category_key not in categories:
         raise ValueError(f"Unknown category {category_key}")
-
-    complexity_meta = categories[category_key].get("complexity", {})
-    if not complexity_meta:
-        return {}
-
-    sampled = {"category": category_key}
-
-    for key, value in complexity_meta.items():
-        # If the value is a list of integers, pick one randomly
-        if isinstance(value, list) and all(isinstance(x, int) for x in value):
-            sampled[key] = random.choice(value)
-        # If the value is already a single int or str, just use it
-        else:
-            sampled[key] = value
+    cx = categories[category_key].get("complexity", {})
+    sampled = {k: random.choice(v) if isinstance(v, list) else v for k, v in cx.items()}
     return sampled
 
-
 def _resolve_domain_info(prompt: str, domain_data: dict):
-    """
-    Fuzzy domain/subtask detection using external keyword file
-    Returns best matching (domain, section, subtask, schema_info),
-    or fallback.
-    """
     prompt_lower = prompt.lower()
     keyword_map = _load_keywords()
+    
+    # Keyword Map Lookup
+    for subtask_name, keywords in keyword_map.items():
+        if any(kw in prompt_lower for kw in keywords):
+            for domain, sections in domain_data.items():
+                for section, tasks in sections.items():
+                    if subtask_name in tasks:
+                        return domain, section, subtask_name, tasks[subtask_name]
 
-    # First pass: keyword-based matching
+    # Fuzzy Matching on Subtask Names
     for domain_name, domain_sections in domain_data.items():
         for section, subtasks in domain_sections.items():
             for subtask_name, schema_info in subtasks.items():
-                # keywords loaded from external file
-                keywords = keyword_map.get(subtask_name, [])
-                for kw in keywords:
-                    if kw in prompt_lower:
-                        return domain_name, section, subtask_name, schema_info
-                # secondary: partial match on subtask name
-                words = subtask_name.replace("_", " ").split()
-                if all(w in prompt_lower for w in words):
-                    return domain_name, section, subtask_name, schema_info
-    # fallback
-    return "banking", "general", "unspecified_task", {
-        "inputs": [],
-        "outputs": [],
-        "skills": []
-    }
+                clean_name = subtask_name.replace("_", " ")
+                if clean_name in prompt_lower:
+                     return domain_name, section, subtask_name, schema_info
+                     
+    return "banking", "general", "unspecified_task", {"inputs": [], "outputs": [], "skills": []}
 
-def _llm_generate_task(prompt, category_key, category_name, domain_data, complexity=None):
+def _build_extraction_system_prompt(domain, subtask, input_schema, complexity):
     """
-    Calls OpenRouter LLM to produce a domain-grounded task instance.
+    Builds a prompt that forces the agent to extract specific keys defined in task_domaine.json
+    and generate simple steps.
     """
-    domain_name, section, subtask, schema_info = _resolve_domain_info(prompt, domain_data)
-    complexity_info = f"- Complexity: {complexity}" if complexity else ""
-    system_prompt = f"""
-    You are a procedural task generator for a benchmark.
-    Given a user prompt and a domain schema, generate a concrete, realistic task instance.
-    The output must be **pure JSON** only (no text outside JSON).
+    # Create a simplified list of keys for the LLM to focus on
+    if isinstance(input_schema, dict):
+        keys = list(input_schema.keys())
+    elif isinstance(input_schema, list):
+        keys = input_schema
+    else:
+        keys = []
+    
+    steps_count = complexity.get("procedure_length", 5)
+
+    prompt = f"""
+    You are a Procedural Memory Task Generator.
+    Your goal is to analyze the user prompt and generate a valid JSON object.
 
     ### Context
-    - Domain: {domain_name}
-    - Section: {section}
-    - Subtask: {subtask}
-    - Complexity: {complexity_info}
+    Domain: {domain}
+    Subtask: {subtask}
 
-    ### Schema
-    - Inputs: {schema_info['inputs']}
-    - Outputs: {schema_info['outputs']}
-    - Required Skills: {schema_info['skills']}
+    ### Instruction
+    1. **Extract Inputs**: Look for the following parameters in the user prompt: {json.dumps(keys)}.
+    - If a value is present in the prompt, extract it.
+    - If a value is missing, set it to unknown as define by the constraint file: unknown or take the default value.
+    - Do NOT invent data.
+    2. **Generate Steps**: detailed steps to perform this subtask (approx {steps_count} steps).
 
-    ### Rules
-    - Task must follow the schema logically.
-    - Include steps that use the listed inputs and produce the listed outputs.
-    - Keep tasks coherent with the benchmark category ({category_name} / {category_key}).
-    - Generate exactly one JSON with fields:
-    task_id, category_key, category_name, domain, section, subtask, steps, inputs, outputs, skills.
-
-    ### Complexity Profile
-    The task must match this complexity specification:
-    {json.dumps(complexity, indent=2)}
-
-    Respect:
-    - Procedure length target
+    ### Response Format
+    Return ONLY valid JSON:
+    {{
+    "inputs": {{ "key": "value" }},
+    "steps": [ "step 1", "step 2" ]
+    }}
     """
+    return prompt
+
+def _llm_generate_and_extract(prompt, system_prompt):
     payload = {
         "model": OPENROUTER_MODEL,
         "messages": [
-            {"role": "system", "content": system_prompt.strip()},
-            {"role": "user", "content": f"Prompt: {prompt}"}
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": prompt}
         ],
-        "temperature": 0.6,
-        "max_tokens": 2000,
+        "temperature": 0.45, # Low temperature for extraction accuracy to prevent creativity, invent etc...
+        "max_tokens": 2000
     }
-
     headers = {
         "Authorization": f"Bearer {OPENROUTER_API_KEY}",
         "Content-Type": "application/json",
     }
-    response = requests.post(OPENROUTER_URL, headers=headers, json=payload, timeout=60)
-    response.raise_for_status()
-    data = response.json()
-    raw_output = data["choices"][0]["message"]["content"]
     try:
-        json_start = raw_output.find("{")
-        json_end = raw_output.rfind("}") + 1
-        return json.loads(raw_output[json_start:json_end])
+        response = requests.post(OPENROUTER_URL, json=payload, headers=headers, timeout=60)
+        response.raise_for_status()
+        raw = response.json()["choices"][0]["message"]["content"]
+        
+        # Robust JSON extraction
+        start = raw.find("{")
+        end = raw.rfind("}") + 1
+        if start == -1: raise ValueError("No JSON in response")
+        return json.loads(raw[start:end])
     except Exception as e:
-        raise ValueError(f"Model output not valid JSON: {raw_output}") from e
+        print(f"LLM Error: {e}")
+        # Fallback to prevent crash
+        return {"inputs": {}, "steps": ["Error generating steps"]}
+
+def _synthesize_outputs(c_engine, sub_rules, validated_inputs):
+    """
+    Generates synthetic output data (IDs, receipts) based on constraint rules.
+    """
+    synthesized = {}
+    output_rules = sub_rules.get("outputs", {})
+
+    if "account_id" in output_rules:
+        synthesized["account_id"] = c_engine.generate_account_id(validated_inputs)
+    
+    if "transaction_id" in output_rules:
+        synthesized["transaction_id"] = c_engine.generate_transaction_id()
+
+    # Format Templates (Receipts)
+    final_outputs = c_engine.apply_output_templates(sub_rules, validated_inputs, synthesized)
+    
+    return final_outputs
 
 def generate_from_prompt(prompt: str, category_key: str, category_name: str):
-    """
-    Hybrid LLM + schema-guided generator.
-    """
     random.seed()
     categories = _load_categories()
     domain_data = _load_domain()
+    constraints = _load_constraints()
     complexity = _sample_complexity(category_key, categories)
-    task = _llm_generate_task(prompt, category_key, category_name, domain_data, complexity)
-    task["task_id"] = _generate_task_id(category_key)
+    
+    # Initialize Engines
+    c_engine = ConstraintEngine(constraints)
+    validator = TaskValidator()
 
-    task.setdefault("category_key", category_key)
-    task.setdefault("category_name", category_name)
-    task.setdefault("domain", domain_data)
-    task["complexity"] = complexity
-    task["prompt"] = prompt
-    task["created_at"] = datetime.now().isoformat()
+    # 1. Resolve Domain & Schema
+    domain_name, section, subtask, schema_info = _resolve_domain_info(prompt, domain_data)
+    
+    # Get strict rules from domaine_constraint.json
+    sub_rules = c_engine.get_subtask_constraints(domain_name, section, subtask)
+    
+    # Merge basic schema from task_domaine with strict rules
+    input_keys = schema_info.get("inputs", [])
 
+    # for LLM Extraction & Generation,, We use a custom system prompt here to force Extraction
+    system_prompt = _build_extraction_system_prompt(domain_name, subtask, input_keys, complexity)
+    llm_result = _llm_generate_and_extract(prompt, system_prompt)
+    
+    raw_inputs = llm_result.get("inputs", {})
+    raw_steps = llm_result.get("steps", [])
+
+    # Apply Input Constraints (Fill Defaults / Handle Missing)
+    validated_inputs = c_engine.apply_input_rules(sub_rules, raw_inputs)
+
+    # Synthesize Outputs
+    # This generates the Account IDs and formatting receipts using Python
+    outputs = _synthesize_outputs(c_engine, sub_rules, validated_inputs)
+
+    # Validate Steps
+    try:
+        v_res = validator.validate_steps({"steps": raw_steps})
+        steps = v_res["steps"]
+    except Exception as e:
+        print(f"Validation warning: {e}")
+        # Fallback to string conversion if validation fails but we have data
+        steps = [str(s) for s in raw_steps]
+
+    # Build Final Object
+    task = {
+        "task_id": _generate_task_id(category_key),
+        "category_key": category_key,
+        "category_name": category_name,
+        "domain": domain_name,
+        "section": section,
+        "subtask": subtask,
+        "steps": steps,
+        "inputs": validated_inputs,
+        "outputs": outputs,
+        "skills": schema_info.get("skills", []),
+        "complexity": complexity,
+        "prompt": prompt,
+        "created_at": datetime.now().isoformat()
+    }
+
+    # Save
     GENERATED_DIR.mkdir(parents=True, exist_ok=True)
     with open(GENERATED_DIR / f"{task['task_id']}.json", "w", encoding="utf-8") as f:
         json.dump(task, f, indent=2, ensure_ascii=False)
 
+    # Registry Update
     if REGISTRY_PATH.exists():
-        registry = json.load(open(REGISTRY_PATH, encoding="utf-8"))
+        registry = _load_json(REGISTRY_PATH)
     else:
         registry = []
+    
+    # Avoid duplicate IDs in registry if running fast loop
+    if not any(r['task_id'] == task['task_id'] for r in registry):
+        registry.append({
+            "task_id": task["task_id"],
+            "category_key": category_key,
+            "category_name": category_name
+        })
+        with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
+            json.dump(registry, f, indent=2, ensure_ascii=False)
 
-    registry.append({
-        "task_id": task["task_id"],
-        "category_key": category_key,
-        "category_name": category_name,
-    })
-    with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
-        json.dump(registry, f, indent=2, ensure_ascii=False)
     return task
 
-def generate_multiple_instances(prompt, category_key, category_name, n_instances: int = 2):
+def generate_multiple_instances(prompt, category_key, category_name, n_instances=2):
     tasks = []
     attempts = 0
-    max_attempts = n_instances * 3  
-    while len(tasks) < n_instances and attempts < max_attempts:
+    while len(tasks) < n_instances and attempts < n_instances * 3:
         attempts += 1
         try:
             t = generate_from_prompt(prompt, category_key, category_name)
-            
-            if t["task_id"] not in [task["task_id"] for task in tasks]:
-                tasks.append(t)
+            tasks.append(t)
         except Exception as e:
-            print(f"LLM generation failed: {e}. Retrying... ({len(tasks)+1}/{n_instances})")
-    if len(tasks) < n_instances:
-        print(f"Only generated {len(tasks)} tasks out of requested {n_instances}")
+            print(f"Generation failed: {e}")
     return tasks
