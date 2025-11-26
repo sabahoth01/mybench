@@ -1,67 +1,73 @@
 import json
 from pathlib import Path
+
 from src.generator.task_generator import generate_multiple_instances
 from src.core.runner import run_trial_series
 
 TEST_CATEGORY_FILE = Path("configs/test_category.json")
+
 with open(TEST_CATEGORY_FILE, "r", encoding="utf-8") as f:
     TEST_CATEGORIES = json.load(f)
+
 ORDERED_CATEGORIES = [
-    (i, key, info) 
-    for i, (key, info) in enumerate(TEST_CATEGORIES.items(), start=1)]
+    (i, key, info)
+    for i, (key, info) in enumerate(TEST_CATEGORIES.items(), start=1)
+]
 
 def interactive_mode():
-    print("\n Procedural Memory Benchmark\n")
+    print("\nProcedural Memory Benchmark\n")
 
-    print("\nAvailable task categories:\n")
     for num, key, info in ORDERED_CATEGORIES:
-        print(f"{num}. {info['name']} ({key}): {info['description']}")
+        print(f"{num}. {info['name']} ({key}) – {info['description']}")
+
     try:
-        selection = int(input("\nEnter category number: \n\t-> ").strip())
+        selection = int(input("\nCategory number → ").strip())
     except ValueError:
-        print("Invalid input. Please enter a number.")
+        print("Invalid number.")
         return
-
     if not (1 <= selection <= len(ORDERED_CATEGORIES)):
-        print("Invalid category number.")
+        print("Invalid category.")
         return
 
-    num, category_key, category_info = ORDERED_CATEGORIES[selection - 1]
+    _, category_key, category_info = ORDERED_CATEGORIES[selection - 1]
     category_name = category_info["name"]
-    print(f"\nSelected category: {category_name} ({category_key})")
 
     task_prompt = input(
-        f"\nEnter base task prompt for '{category_name}'\n"
-        "For example: Transfer 50 rubles from Bob to Ann...\n\t-> "
+        f"\nEnter base task prompt for '{category_name}':\n→ "
     ).strip()
 
-    n_instances = int(input("\nHow many task instances to generate?\n\t-> ").strip())
-    n_trials = int(input("\nHow many trials per instance?\n\t-> ").strip())
+    try:
+        n_instances = int(input("\nHow many task instances? → ").strip())
+        n_trials = int(input("How many trials per instance? → ").strip())
+    except ValueError:
+        print("Invalid number.")
+        return
 
     feedback_policy = input(
-        "\nSelect feedback policy (minimal, descriptive, stepwise, applied): \n\t-> "
+        "\nFeedback policy (minimal, //still testing not working yet):\n→ "
     ).strip()
 
     perturb_policy = input(
-        "\nSelect perturbation policy (none, probalistic, performance_based):\n\t->  "
+        "\nPerturbation policy (none, , //still testing not working yet):\n→ "
     ).strip()
 
-    print(f"\nGenerating {n_instances} tasks for category '{category_name}'...")
+    print(f"\nGenerating {n_instances} tasks…")
     tasks = generate_multiple_instances(
         prompt=task_prompt,
         category_key=category_key,
         category_name=category_name,
         n_instances=n_instances
     )
+
     print(f"\nGenerated {len(tasks)} tasks.")
 
-    start = input("\nStart trials now? (y/n): \n\t-> ").strip().lower()
+    start = input("\nStart trials now? (y/n) → ").lower().strip()
     if start not in ("y", "yes"):
-        print("\nExiting without running trials.")
+        print("Exiting.")
         return
 
-    for i, task in enumerate(tasks, start=1):
-        print(f"\n Task Instance {i}/{len(tasks)} ({task['task_id']}) ")
+    for idx, task in enumerate(tasks, start=1):
+        print(f"\nTask {idx}/{len(tasks)} – {task['task_id']}")
         run_trial_series(
             task,
             n_trials,
@@ -69,14 +75,15 @@ def interactive_mode():
             perturb_policy=perturb_policy
         )
 
-def config_mode(config):
-    print(f"Running benchmark from config file: {config}")
-    # TODO: YAML config-driven batch mode
+
+def config_mode(path):
+    print(f"Batch mode not implemented yet. Given: {path}")
+
 
 def launch_cli():
     import argparse
     parser = argparse.ArgumentParser(description="Procedural Memory Benchmark")
-    parser.add_argument("--config-file", type=str, help="YAML config file for batch mode.")
+    parser.add_argument("--config-file", type=str)
     args = parser.parse_args()
 
     if args.config_file:
