@@ -1,0 +1,21 @@
+perturbation_resources:
+
+  tool_pools:
+    B1: ["calculator", "search", "fetch"]
+    B2: ["filter", "sort", "loop", "if_block"]
+    B3: ["planner", "optimizer", "transformer"]
+
+  distractor_tools:
+    low: ["weather_api", "stock_api", "map_renderer"]
+    medium: ["randomizer", "translator", "ocr_engine"]
+    high: ["bio_parser", "geo_cluster", "sql_optimizer"]
+
+  constraints:
+    simple: ["budget_limit", "date_limit"]
+    medium: ["max_iterations", "max_failures", "category_required"]
+    hard: ["memory_limit", "missing_data", "external_dependency"]
+
+  input_noise:
+    typos: ["s1mpl3", "err0r", "blurr3d"]
+    ambiguity: ["this item", "the previous one", "that value"]
+    missing_fields: ["<missing>", "null", "???"]
