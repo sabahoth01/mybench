@@ -1,38 +1,55 @@
-import random
 import yaml
-# must be corrected, this is just a simple test part that i have tried
+
 class FeedbackEngine:
-    def __init__(self, policy_name="minimal", config_path="configs/feedback_policies.yaml"):
+    def __init__(self, policy_name="binary_step", config_path="configs/feedback_policy.yaml"):
         with open(config_path) as f:
             self.policies = yaml.safe_load(f)["feedback_policies"]
+
+        if policy_name not in self.policies:
+            raise ValueError(f"Unknown feedback policy: {policy_name}")
+
         self.policy = self.policies[policy_name]
 
-    def give_feedback(self, trial_result):
-        """Return feedback based on the configured policy."""
-        level = self.policy.get("level")
-        style = self.policy.get("style")
+        # Tracks consecutive incorrect attempts for each step/trial
+        self.incorrect_counter = 0
 
-        if level == "trial":
-            return self._trial_feedback(trial_result)
-        elif level == "step":
-            return self._step_feedback(trial_result)
+    def request_feedback(self, step_number=None, trial=False):
+        # If binary_trial is active, we might skip step feedback logic 
+        # depending on your design. Assuming we use it for both levels:
+        
+        if trial:
+            prompt = "\n[Trial End] Was the whole trial correct? (correct/incorrect): "
         else:
-            raise ValueError("Invalid feedback level")
+            prompt = f"\n[Step {step_number}] Correct? (correct/incorrect): "
 
-    def _trial_feedback(self, result):
-        if result["success"]:
-            return self.policy["content"]["success"]
-        return self.policy["content"]["failure"]
-
-    def _step_feedback(self, result):
-        fb = []
-        for i, step in enumerate(result["steps"], start=1):
-            if step["passed"]:
-                fb.append(self.policy["content"].get("pass", "Step OK"))
+        while True:
+            fb = input(prompt).strip().lower()
+            if fb in ["correct", "c", "1", "yes", "y"]:
+                self.incorrect_counter = 0
+                return {"passed": True, "hint": None}
+            
+            elif fb in ["incorrect", "i", "0", "no", "n"]:
+                self.incorrect_counter += 1
+                
+                # Check threshold
+                if self.incorrect_counter >= 4:
+                    print(">> Repeated failures detected. Please provide a hint.")
+                    hint = input(">> Hint: ").strip()
+                    self.incorrect_counter = 0 # Reset after hint
+                    return {"passed": False, "hint": hint}
+                
+                return {"passed": False, "hint": None}
+            
             else:
-                msg = self.policy["content"].get("fail", "Step failed")
-                if self.policy["style"] == "interactive":
-                    prompt = random.choice(self.policy["content"]["prompt_templates"])
-                    msg += " " + prompt.format(n=i)
-                fb.append(msg)
-        return fb
+                print("Invalid input. Type 'correct' or 'incorrect'.")
+
+    def generate_feedback_message(self, passed, step_number=None):
+        """Returns the message defined in YAML for the policy."""
+        content = self.policy["content"]
+        key = "correct" if passed else "incorrect"
+        msg = content[key]
+
+        if "{n}" in msg and step_number is not None:
+            msg = msg.format(n=step_number)
+
+        return msg
