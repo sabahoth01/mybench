@@ -1,32 +1,36 @@
 perturbation_policies:
+
   none:
-    description: "No perturbation, baseline run."
+    description: "No perturbation; baseline evaluation."
+    mode: "off"
     rules: []
 
   probabilistic:
-    description: "Random perturbations with defined probabilities."
+    description: "Inject random perturbations with defined probabilities."
+    mode: "probabilistic"
     rules:
-      - type: "tool_unavailability"
-        probability: 0.1
-      - type: "input_noise"
-        probability: 0.15
-      - type: "constraint_shift"
-        probability: 0.05
-
-  performance_based:
-    description: "Perturbations depend on recent success rates."
-    rules:
-      - condition: "success_rate > 0.8"
-        actions:
-          - "increase_difficulty"
-          - "add_constraint"
-      - condition: "success_rate < 0.3"
-        actions:
-          - "simplify_inputs"
-          - "reduce_constraint_density"
+      tool_unavailability: 0.10
+      input_noise: 0.15
+      constraint_shift: 0.05
+      step_shuffle: 0.03
 
   progressive:
-    description: "Difficulty increases steadily every N trials."
-    rules:
-      - condition: "trial_number % 3 == 0"
-        actions: ["increase_constraint_density"]
+    description: "Increase difficulty gradually every N trials."
+    mode: "progressive"
+    step_interval: 3
+    actions:
+      - increase_constraint_density
+      - add_distractor_tool
+
+  performance_based:
+    description: "Perturbation strength adjusts to agent success."
+    mode: "adaptive"
+    thresholds:
+      high_success: 0.8
+      low_success: 0.3
+    high_success_actions:
+      - increase_difficulty
+      - add_constraint
+    low_success_actions:
+      - simplify_inputs
+      - reduce_constraint_density
