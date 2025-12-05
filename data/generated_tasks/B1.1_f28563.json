@@ -1,0 +1,53 @@
+{
+  "task_id": "B1.1_f28563",
+  "category_key": "B1.1",
+  "category_name": "simple atomic recall",
+  "domain": "banking",
+  "section": "account_management",
+  "subtask": "close_account",
+  "steps": [
+    "Verify user identity of Cristina through secure authentication methods.",
+    "Retrieve all account details associated with Cristina's identity.",
+    "Confirm that Cristina has requested account closure and understands the consequences.",
+    "Check for any outstanding balances, pending transactions, or active services linked to the account.",
+    "Notify Cristina of any outstanding obligations and provide options to resolve them.",
+    "If obligations exist, guide Cristina to settle them or provide written consent to waive them (if policy permits).",
+    "Initiate account closure request in the banking system using the verified account ID.",
+    "Disable all access methods (cards, online banking, direct debits) associated with the account.",
+    "Generate and send a closure confirmation to Cristina via secure email or mail.",
+    "Archive account records in compliance with regulatory retention policies."
+  ],
+  "inputs": {
+    "account_id": "unknown",
+    "closure_reason": "unknown"
+  },
+  "outputs": {
+    "closure_receipt": "Account unknown closed. Reason: unknown. Date: 2025-12-05"
+  },
+  "skills": [
+    "record_update",
+    "confirmation_handling"
+  ],
+  "complexity": {
+    "procedure_length": 10
+  },
+  "prompt": "delete account for cristina",
+  "created_at": "2025-12-05T07:21:51.625564",
+  "metadata": {
+    "feedback_policy": {
+      "name": "binary_step",
+      "level": "step",
+      "style": "binary",
+      "labels": [
+        "correct",
+        "incorrect"
+      ],
+      "hint_after_incorrect_n": 4
+    },
+    "perturbation_policy": {
+      "name": "probabilistic",
+      "description": "",
+      "mode": "probabilistic"
+    }
+  }
+}

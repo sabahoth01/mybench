@@ -538,5 +538,505 @@
     "task_id": "B1.1_a7881b",
     "category_key": "B1.1",
     "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_3006c4",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_4af54f",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_05b5ea",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.2_d71252",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_d52f19",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.1_b05855",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_7f0ad9",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_60484c",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_d2733f",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_dd9f4f",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_c8d141",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_9fb5ae",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_a2170f",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_8ec950",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_73b4d6",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_8b0c10",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_9af91f",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_2d7b91",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_29b776",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_008cd8",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_ccc89e",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_ca3275",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.2_527ed1",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_cd7f31",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_296969",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.1_3d001c",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_eb86ed",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_4921b7",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.2_fe8bc8",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_3b641f",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_139acd",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.3_f8fec1",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.3_37c413",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.3_106397",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.4_ed289c",
+    "category_key": "B1.4",
+    "category_name": "cross session"
+  },
+  {
+    "task_id": "B1.4_0780a6",
+    "category_key": "B1.4",
+    "category_name": "cross session"
+  },
+  {
+    "task_id": "B1.4_b271e5",
+    "category_key": "B1.4",
+    "category_name": "cross session"
+  },
+  {
+    "task_id": "B1.1_251684",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_dc0dab",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_c96f4e",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_99dbc1",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_07cd82",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.2_683379",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_a45b3c",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_3ab02c",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.1_9fde0b",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_92aafc",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_00678a",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_885247",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_44179c",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_762646",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_b00567",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_781aec",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.2_e617eb",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_1002be",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_6ad1b1",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.1_ef66dd",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_d9f235",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.3_4c23a1",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.3_3811b4",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.3_eb7435",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.1_96eb80",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_697f27",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_d79b75",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_afd760",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_4eb6d9",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_21ab11",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_4991be",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_fca76d",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_bc788f",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.2_61a7c8",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.2_665f7a",
+    "category_key": "B1.2",
+    "category_name": "immediate context"
+  },
+  {
+    "task_id": "B1.1_c70d87",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_aef4f8",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_163635",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_ffea5d",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_2bc852",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.3_ad988a",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.3_cf62de",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.3_4e9355",
+    "category_key": "B1.3",
+    "category_name": "long context"
+  },
+  {
+    "task_id": "B1.1_08ae73",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_212355",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_fca8c7",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_f4d564",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_7bf67a",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_b75b18",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_f80de8",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_52905d",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_3d88ab",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_6acab3",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_8b8475",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_ef3542",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_749140",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_e73765",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_ab4c42",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_5d646e",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_f28563",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_5f0249",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_6b7ee8",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
+  },
+  {
+    "task_id": "B1.1_80e715",
+    "category_key": "B1.1",
+    "category_name": "simple atomic recall"
   }
 ]
