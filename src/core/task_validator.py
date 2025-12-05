@@ -27,7 +27,6 @@ class TaskValidator:
                 if s: 
                     cleaned_steps.append(s)
             
-            # The step is a dict (e.g. {"step": "text"}), extract the text
             elif isinstance(item, dict):
                 # Find the first string value in the dict
                 text = next((v for v in item.values() if isinstance(v, str)), None)

@@ -1,44 +1,98 @@
 import random
 import yaml
-# must be corrected to take into account the complexity leveler of each block that i have defined
+from pathlib import Path
+
 class PerturbationEngine:
-    def __init__(self, policy_name="none", config_path="configs/perturbation_policies.yaml"):
-        with open(config_path) as f:
-            self.policies = yaml.safe_load(f)["perturbation_policies"]
-        self.policy = self.policies[policy_name]
+    def __init__(self, policy_name="none",
+                 policy_path="configs/perturbation_policy.yaml",
+                 resources_path="configs/perturbation_resources.yaml"):
 
-    def apply(self, task_instance, metrics):
-        """Apply perturbations according to policy."""
-        rules = self.policy.get("rules", [])
-        for rule in rules:
-            if "probability" in rule and random.random() < rule["probability"]:
-                self._apply_rule(task_instance, rule["type"])
-            elif "condition" in rule and self._evaluate_condition(rule["condition"], metrics):
-                for action in rule.get("actions", []):
-                    self._apply_rule(task_instance, action)
-        return task_instance
+        p_path = Path(policy_path)
+        r_path = Path(resources_path)
 
-    def _apply_rule(self, task, rule_type):
-        # Example perturbations
-        if rule_type == "increase_difficulty":
-            task["complexity_level"] = min(task.get("complexity_level", 1) + 1, 5)
-        elif rule_type == "add_constraint":
-            task.setdefault("constraints", []).append("new_constraint")
-        elif rule_type == "simplify_inputs":
-            task["inputs"] = task["inputs"][:max(1, len(task["inputs"]) - 1)]
-        elif rule_type == "tool_unavailability":
-            task["toolset"] = task.get("toolset", [])
-            if task["toolset"]:
-                removed = random.choice(task["toolset"])
-                task["toolset"].remove(removed)
-                task.setdefault("perturbation_notes", []).append(f"Tool {removed} unavailable.")
-        elif rule_type == "input_noise":
-            task.setdefault("noise", []).append("Random value perturbation.")
+        if p_path.exists():
+            with open(p_path, 'r') as f:
+                self.policies = yaml.safe_load(f).get("perturbation_policies", {})
+        else:
+            self.policies = {"none": {"mode": "off"}}
+
+        if r_path.exists():
+            with open(r_path, 'r') as f:
+                self.resources = yaml.safe_load(f).get("perturbation_resources", {})
+        else:
+            self.resources = {}
+
+    
+        if policy_name in self.policies:
+            self.policy = self.policies[policy_name]
+        else:
+            print(f"WARNING: Policy '{policy_name}' not found. Defaulting to 'none'.")
+            self.policy = self.policies.get("none", {"mode": "off"})
+        
+        self.incorrect_streak = 0
+
+    def apply(self, task, metrics):
+        mode = self.policy.get("mode", "off")
+
+        if mode == "off":
+            return task
+        elif mode == "probabilistic":
+            return self._apply_probabilistic(task)
+        elif mode == "progressive":
+            return self._apply_progressive(task, metrics)
+        elif mode == "adaptive":
+            return self._apply_adaptive(task, metrics)
+        
         return task
 
-    def _evaluate_condition(self, expr, metrics):
-        """Safe eval for conditions like 'success_rate > 0.8'."""
-        try:
-            return eval(expr, {}, metrics)
-        except Exception:
-            return False
+    def _apply_probabilistic(self, task):
+    
+        rules = self.policy.get("rules", {})
+        for rule_type, prob in rules.items():
+            if random.random() < prob:
+                self._execute(task, rule_type)
+        return task
+
+    def _apply_progressive(self, task, metrics):
+        trial_num = metrics.get("trial_number", 1) # Note: Runner passes trial_idx via metrics if needed, or we rely on loop
+        # Usually metrics['success_rate'] is passed. For progressive, we need a counter.
+        
+        interval = self.policy.get("step_interval", 3)
+        # Using a default counter if not provided
+        t_num = metrics.get("trial_number", 1) 
+
+        if t_num % interval == 0:
+            for action in self.policy.get("actions", []):
+                self._execute(task, action)
+        return task
+
+    def _apply_adaptive(self, task, metrics):
+        sr = metrics.get("success_rate", 0)
+        thresholds = self.policy.get("thresholds", {})
+        
+        if sr > thresholds.get("high_success", 0.8):
+            for action in self.policy.get("high_success_actions", []):
+                self._execute(task, action)
+        elif sr < thresholds.get("low_success", 0.3):
+            for action in self.policy.get("low_success_actions", []):
+                self._execute(task, action)
+        return task
+
+    def _execute(self, task, action):
+        
+        if action == "tool_unavailability":
+            pool = task.get("toolset", [])
+            if pool:
+                removed = random.choice(pool)
+                if removed in pool:
+                    pool.remove(removed)
+                    task.setdefault("notes", []).append(f"Tool removed: {removed}")
+        
+        elif action == "step_shuffle":
+            if "steps" in task and isinstance(task["steps"], list):
+                random.shuffle(task["steps"])
+                task.setdefault("notes", []).append("Steps shuffled")
+
+        elif action == "input_noise":
+             options = self.resources.get("input_noise", {}).get("ambiguity", ["Noise"])
+             task.setdefault("input_noise", []).append(random.choice(options))

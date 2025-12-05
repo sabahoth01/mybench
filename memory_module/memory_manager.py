@@ -5,9 +5,7 @@ import math
 from datetime import datetime, timedelta
 from typing import List, Dict, Any, Optional, Tuple
 
-# -------------------------
-# JSONL helpers (unchanged)
-# -------------------------
+# helpers
 def _append_jsonl(path: str, entry: Dict[str, Any]):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, "a", encoding="utf-8") as f:
@@ -25,10 +23,8 @@ def _save_jsonl(path: str, data: List[Dict[str, Any]]):
         for entry in data:
             f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
-# ---------------------------------------
-# Small deterministic "embedding" utility
-# (no external libs; deterministic for testing)
-# ---------------------------------------
+# Small deterministic "embedding" (no external libs; deterministic for testing)
+
 def generate_embedding(steps: List[str], dim: int = 64) -> List[float]:
     """
     Produce a deterministic embedding vector for a list of plan steps.
@@ -65,9 +61,8 @@ def cosine_similarity(a: List[float], b: List[float]) -> float:
     nb = math.sqrt(sum(y * y for y in b)) or 1.0
     return dot / (na * nb)
 
-# -------------------------
 # Kalman filter utilities
-# -------------------------
+
 def kalman_update(mean: float, P: float, measurement: float, R: float) -> Tuple[float, float]:
     """
     Simple scalar Kalman update for a single observation.
@@ -89,9 +84,8 @@ def kalman_update(mean: float, P: float, measurement: float, R: float) -> Tuple[
     new_P = max(1e-6, new_P)
     return new_mean, new_P
 
-# -------------------------
-# Memory classes (reworked)
-# -------------------------
+# Memory classes 
+
 class EpisodicMemory:
     """
     Append-only trial log. Uses 'test_category' instead of 'signature'.
@@ -290,9 +284,8 @@ class ProceduralMemory:
         # persist to disk
         self._persist()
 
-# -------------------------
-# Orchestration manager
-# -------------------------
+#  manager
+
 class MemoryManager:
     def __init__(self):
         self.episodic = EpisodicMemory()
